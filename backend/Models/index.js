@@ -22,5 +22,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require("./userModel") (sequelize , DataTypes)
+db.restaurant = require("./restaurantModel") (sequelize , DataTypes)
 
 module.exports = db;

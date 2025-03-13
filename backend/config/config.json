@@ -4,20 +4,24 @@
       "password": "C4u3j0s3",
       "database": "reserva",
       "host": "127.0.0.1",
-      "dialect": "mysql"
+      "dialect": "mysql",
+      "port": 3306
     },
     "test": {
       "username": "root",
       "password": "C4u3j0s3",
       "database": "reserva",
       "host": "127.0.0.1",
-      "dialect": "mysql"
+      "dialect": "mysql",
+      "port": 3306
     },
     "production": {
       "username": "root",
       "password": "C4u3j0s3",
       "database": "reserva",
       "host": "127.0.0.1",
-      "dialect": "mysql"
+      "dialect": "mysql",
+      "port": 3306
     }
   }
+  

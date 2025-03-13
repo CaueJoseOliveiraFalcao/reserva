@@ -3,34 +3,35 @@ const db = require("../Models");
 const jwt = require("jsonwebtoken");
 const { use } = require("../Routes/userRoutes");
 
-const User = db.users
+const Restaurant = db.restaurant
 
 
 const signup = async (req , res) => {
     try{
-        const {name , email , cpf , password , phone} = req.body
+        const {name , email , cnpj ,address, password , phone} = req.body
         const data = {
             name,
             email,
-            cpf,
+            cnpj,
             password : await bcrypt.hash(password , 10),
-            phone
+            address,
+            phone,
         };
+        
+        const restaurant = await Restaurant.create(data);
 
-        const user = await User.create(data);
 
-
-        if (user) {
-            let token = jwt.sign({id : user.id} , process.env.SECRET_KEY , {
+        if (restaurant) {
+            let token = jwt.sign({id : restaurant.id} , process.env.SECRET_KEY , {
                 expiresIn: 1 * 24 * 60 * 60 * 1000,
             })
 
 
         res.cookie("jwt" , token ,{ maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-        console.log('user' , JSON.stringify(user, null , 2))
+        console.log('user' , JSON.stringify(restaurant, null , 2))
         console.log("token" , token);
 
-        return res.status(201).send([user , token]);
+        return res.status(201).send(restaurant);
         } else {
             return res.status(500).send('incorrect details');
         }
@@ -43,35 +44,34 @@ const login = async (req, res) => {
     try {
    const { email, password } = req.body;
 
-      const user = await User.findOne({
+      const restaurant = await Restaurant.findOne({
         where: {
         email: email
       } 
       
       });
-      if(!user){
-        return res.status(401).json({ error: 'credenciais invalidas e' });
+      if(!restaurant){
+        return res.status(401).json({ error: 'credenciais invalidas' });
       }
-   
-      if (user) {
-        const isSame = await bcrypt.compare(password, user.password);
+      if (restaurant) {
+        const isSame = await bcrypt.compare(password, restaurant.password);
         if (isSame) {
-          let token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+          let token = jwt.sign({ id: restaurant.id }, process.env.SECRET_KEY, {
             expiresIn: 1 * 24 * 60 * 60 * 1000,
           });
    
           res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-          console.log("user", JSON.stringify(user, null, 2));
+          console.log("user", JSON.stringify(restaurant, null, 2));
           console.log(token);
-          return res.status(201).send([user , token]);
+          return res.status(201).send([restaurant , token]);
         } else {
-          return res.status(401).json({ error: 'credenciais invalidas s' });
+          return res.status(401).json({ error: 'credenciais invalidas' });
         }
       } else {
-        return res.status(401).json({ error: 'credenciais invalidas s' });
+        return res.status(401).json({ error: 'credenciais invalidas' });
       }
     } catch (error) {
-      return res.status(401).send(error);
+        return res.status(500).send(error);
     }
    };
    

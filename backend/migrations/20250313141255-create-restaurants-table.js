@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('restaurants', {
       id: {
         type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
@@ -18,11 +18,15 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      cpf: {
+      cnpj: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
       password: {
         type: Sequelize.STRING,
         allowNull: false
@@ -41,11 +45,14 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      
+      profile_picture: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('restaurants');
   }
 };
