@@ -11,4 +11,6 @@ router.post('/signup' , userAuth.verify_client  ,signup);
 
 router.post('/login' , login);
 
+router.get('/verify-user-token' , userAuth.verify_token);
+
 module.exports = router;

@@ -1,6 +1,7 @@
 
 const express = require("express");
 const db = require("../Models");
+const jwt = require("jsonwebtoken");
  const User = db.users;
 
  const verify_client = async (req, res, next) => {
@@ -38,6 +39,25 @@ const db = require("../Models");
    console.log(error);
  }
 };
+const verify_token = async (req , res) => {
+  try{
+    const UserToken = req.headers.authorization;
+
+    if (!UserToken){
+      return res.status(409).json({error : 'token nao fornecido' , UserToken})
+    }
+    const token = UserToken.split(" ")[1].replace(/"/g, ''); 
+    jwt.verify(token , process.env.SECRET_KEY , (err , decoded) => {
+      if (err) {
+        return res.status(409).json({error : 'token invalido'})
+      }
+      return res.status(200).json({message : 'token valido' , data : decoded})
+    })
+  }catch(error){
+    return res.status(409).json({message : error.message})
+  }
+}
  module.exports = {
     verify_client,
+    verify_token
 };

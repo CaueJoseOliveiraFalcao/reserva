@@ -21,14 +21,13 @@ export default function LoginCliente() {
         password: data.senha
       });
 
-      alert('LOgado com sucesso!');
 
       const user = response.data[0];
       const token = response.data[1];
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', JSON.stringify(token));
 
-      console.log(localStorage.getItem('token'));
+      router.push('/dashboard/user')
     } catch (error) { 
       alert(error.response?.data?.error || 'Erro ao registrar.');
     }
