@@ -1,7 +1,7 @@
 // Page.js
 'use client'
 import { useRouter } from 'next/navigation';
-import useUserAuth from '../../../../hooks/TokenAuth';
+import { useUserAuth } from '../../../../hooks/TokenAuth';
 import { useEffect } from 'react';
 
 export default function Page() {
@@ -9,14 +9,13 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        console.log(authenticated);
         if (authenticated === false) {
-            router.push('/auth/user-login'); // Redireciona para login se não autenticado
+            router.push('/auth/user-login');
         }
     }, [authenticated, router]);
 
     if (authenticated === null) {
-        return <p>Carregando...</p>; // Mostra uma tela de carregamento enquanto verifica o token
+        return <p>Carregando...</p>;  
     }
 
     const user = localStorage.getItem('user')

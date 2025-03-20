@@ -11,7 +11,6 @@ router.post('/signup' , restaurantAuth.verify_restaurant  ,signup);
 
 router.post('/login' , login);
 
-
 router.get('/verify-restaurant-token' , restaurantAuth.verify_token);
 
 module.exports = router;
