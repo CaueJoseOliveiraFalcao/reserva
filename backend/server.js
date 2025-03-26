@@ -7,7 +7,7 @@ const db = require('./Models')
 const userRoutes = require ('./Routes/userRoutes')
 const restaurantRoutes = require ('./Routes/restaurantRoutes')
 const cors = require('cors');
-
+const multer = require('multer');
 const PORT = process.env.PORT || 8000
 
 const app = express();
@@ -16,6 +16,8 @@ app.use(cors({
   methods : ['POST' , 'GET' , 'DELETE' , 'PUT'],
   credentials : true
 }))
+
+const upload = multer({dest : 'uploads/'});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

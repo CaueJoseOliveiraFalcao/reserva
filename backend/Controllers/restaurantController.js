@@ -2,7 +2,10 @@ const bcrypt = require("bcrypt");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
 const { use } = require("../Routes/userRoutes");
+const multer = require('multer');
+const { where } = require("sequelize");
 
+const upload = multer({dest : 'uploads/'});
 const Restaurant = db.restaurant
 
 
@@ -74,8 +77,27 @@ const login = async (req, res) => {
         return res.status(500).send(error);
     }
    };
-   
+   const change_profile = async (req , res) =>{
+    try{
+      const user = await  Restaurant.findOne({
+        where : {
+          id : req.body.userId
+        }
+      })
+      user.name = req.body.userName
+      user.address = req.body.address
+      user.phone = req.body.phone
+      user.profile_picture = `http://localhost:8000/api/restaurant/restaurant-photo/${user.id}`;
+      await user.save();
+    res.status(200).json({message : 'usuario alterado'})
+    }catch(err){
+      res.status(404).json({message : 'usuario nao encontrado'})
+    }
+
+
+   }
    module.exports = {
     signup,
     login,
+    change_profile
    };

@@ -2,14 +2,14 @@
 import { useRouter } from 'next/navigation';
 import  { useRestaurantAuth } from '../../../../hooks/TokenAuth';
 import { useEffect, useState } from 'react';
-
+import api from '@/lib/api';
 
 export default function Page() {
 
     const authenticated = useRestaurantAuth();
     const [user , setUser] = useState('');
     const router = useRouter();
-
+    const [profileShow , setProfile] = useState('');
 
     const [formData, setFormData] = useState({
         userName: '',
@@ -28,7 +28,7 @@ export default function Page() {
     }
     const handleFIleChange  = (event) => {
         const file = event.target.files[0]
-
+        console.log(file);
         setFormData((prevData) => ({
             ...prevData,
             profile : file
@@ -45,26 +45,54 @@ export default function Page() {
 
         if (localUser) {
             const objUser = JSON.parse(localUser);
-            console.log(objUser);
+
+            setProfile(objUser.profile_picture);
+
             setUser(objUser);
             setFormData({
                 userName : objUser.name,
                 address : objUser.address,
                 phone : objUser.phone,
-                profile : objUser.address
+                profile : objUser.profile
             })
 
         }
     }, [])
+    const Send = async (e) => {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userId  = user.id;
+        const data = new FormData();
+        data.append('userId' , userId);
+        data.append('userName', formData.userName);
+        data.append('address', formData.address);
+        data.append('phone', formData.phone);
+        if (formData.profile) {
+            data.append('profile', formData.profile); // Adiciona o arquivo ao FormData
+        }
+    
+        try {
+            const response = await api.post('/restaurant/change-profile', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            window.location.reload();
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+        }
+    };
 
     return (
         <div>
             <h1 className='text-center text-3xl mt-5 mb-5'>PERFIL DO RESTAURANTE</h1>
             <div>
-                <form className='flex flex-col justify-center items-center black'>
+                <form onSubmit={Send} encType="multipart/form-data" className='flex flex-col justify-center items-center black'>
                     <label>Foto de Perfil Atual</label>
                     <img width={200} 
-                            src={formData.profile === true ? formData.profile : 'https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg'}
+                            src={profileShow ? profileShow : 'https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg'}
                             alt="Foto de Perfil"
                             ></img>
                     <input className='bg-blue-500 text-white' type='file' accept="image/*" onChange={handleFIleChange}/>
