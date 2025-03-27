@@ -36,6 +36,7 @@ export default function LoginCliente() {
   return (
     <div>
       <h1 className='text-center text-2xl mt-6 mb-6'>Login de Cliente</h1>
+      <a className='text-center m-auto text-black' href='/auth/user-register'>REGISTRO RESTAURANTE</a>
       <div className='w-full flex justify-center items-center'>
         <form className='d-flex w-1/3 flex flex-col' onSubmit={handleSubmit}>
           <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />

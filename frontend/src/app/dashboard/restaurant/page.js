@@ -25,6 +25,7 @@ export default function Page() {
     return (
         <div>
             <h1>DASHBOARD usuario = {user.name} cnpj = {user.cnpj}</h1>
+            <a className='text-center m-auto text-black' href='/profile/restaurant'>EDITAR PERFIL</a>
         </div>
     );
 }

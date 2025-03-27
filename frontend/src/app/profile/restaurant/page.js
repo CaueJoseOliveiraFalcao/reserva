@@ -88,6 +88,7 @@ export default function Page() {
     return (
         <div>
             <h1 className='text-center text-3xl mt-5 mb-5'>PERFIL DO RESTAURANTE</h1>
+            <a className='text-center m-auto text-black' href='/dashboard/restaurant'>dashboard</a>
             <div>
                 <form onSubmit={Send} encType="multipart/form-data" className='flex flex-col justify-center items-center black'>
                     <label>Foto de Perfil Atual</label>
