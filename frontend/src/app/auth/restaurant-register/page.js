@@ -47,6 +47,7 @@ export default function RegistroRestaurante() {
       <a className='text-center m-auto text-black' href='/auth/restaurant-login'>REGISTRO RESTAURANTE</a>
       <div className='w-full flex justify-center items-center'>
         <form className='d-flex w-1/3 flex flex-col' onSubmit={handleSubmit}>
+          <label>Nome</label>
           <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required />
           <input name="cnpj" placeholder="CNPJ" value={form.cnpj} onChange={handleChange} required />
           <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />

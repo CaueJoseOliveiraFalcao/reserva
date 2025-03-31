@@ -25,13 +25,4 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h1 , input , p , label{
-  color: black;
-}
 
-button{
-  color: white;
-  background-color: blue;
-  padding: 1rem;
-  border-radius: 10px;
-}

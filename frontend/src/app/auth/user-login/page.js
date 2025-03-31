@@ -6,10 +6,15 @@ import {styles} from './user-login.module.css'
 
 export default function LoginCliente() {
   const [form, setForm] = useState({ email: '', senha: '' });
+  const [allInputIsValid , setIsvalid] = useState(false)
   const router = useRouter();
 
+  const allValuesAreTrue = () => {
+    setIsvalid(Object.values(form).every(value => value.trim() !== ''));
+  }
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setTimeout(allValuesAreTrue, 0);
   };
 
   const handleSubmit = async (e) => {
@@ -34,14 +39,15 @@ export default function LoginCliente() {
   };
 
   return (
-    <div>
-      <h1 className='text-center text-2xl mt-6 mb-6'>Login de Cliente</h1>
-      <a className='text-center m-auto text-black' href='/auth/user-register'>REGISTRO RESTAURANTE</a>
+    <div className='h-screen w-full flex  bg-amber-900 flex-col'>
+
       <div className='w-full flex justify-center items-center'>
-        <form className='d-flex w-1/3 flex flex-col' onSubmit={handleSubmit}>
+        <form className='d-flex lg:w-1/3 md:w-2/3 w-full mt-20  flex flex-col bg-white text-black p-4 rounded-2xl' onSubmit={handleSubmit}>
+        <h1 className='text-center text-2xl mt-2 mb-6'>Login</h1>
           <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
           <input name="senha" type="password" placeholder="Senha" value={form.senha} onChange={handleChange} required />
-          <button type="submit">Entrar</button>
+          <button className={`p-3 mt-4 mb-1  w-2/3 m-auto rounded-2xl cursor-pointer ${allInputIsValid ?'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'}`} type="submit">Entrar</button>
+          <a className='text-center text-black' href='/auth/user-register'>Não tenho uma conta</a>
         </form>
       </div>
     </div>
