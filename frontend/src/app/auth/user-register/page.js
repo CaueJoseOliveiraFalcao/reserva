@@ -3,6 +3,7 @@ import { useState } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import {styles} from './user-register.module.css'
+import FormDiv from '@/components/FormDiv';
 
 export default function RegistroCliente() {
   const [form, setForm] = useState({ name: '', cpf: '', email: '', senha: '', phone: '' });
@@ -12,6 +13,14 @@ export default function RegistroCliente() {
   const allValuesAreTrue = () => {
     setIsvalid(Object.values(form).every(value => value.trim() !== ''));
   }
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+
+    if (user && token){
+      router.push('/dashboard/user/');
+    }
+  },[])
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setTimeout(allValuesAreTrue, 0);
@@ -46,9 +55,8 @@ export default function RegistroCliente() {
 
   
   return (
-    <div className='h-screen w-full flex jus bg-amber-900 flex-col'>
-      <div className='w-full flex justify-center items-center'>
-      <form className='d-flex lg:w-2/4 md:w-2/3 w-full mt-20  flex flex-col bg-white text-black p-4 rounded-2xl' onSubmit={handleSubmit}>
+    <FormDiv>
+      <form className='d-flex lg:w-2/4 md:w-2/3 w-full mt-10  flex flex-col bg-white text-black p-4 rounded-2xl' onSubmit={handleSubmit}>
       <h1 className='text-center text-black text-2xl mt-2 mb-6'>Criar Conta</h1>
         <label>Nome</label>
         <input className='text-black' name="name" placeholder="digite seu nome" value={form.name} onChange={handleChange} required />
@@ -60,11 +68,12 @@ export default function RegistroCliente() {
         <input name="senha" type="password" placeholder="crie uma senha" value={form.senha} onChange={handleChange} required />
         <label>Telefone</label>
         <input name="phone" placeholder="digite seu telefone" value={form.phone} onChange={handleChange} required />
-        <button className={`p-3 mt-4 mb-1  w-2/3 m-auto rounded-2xl cursor-pointer ${allInputIsValid ?'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'}`} type="submit">Salvar</button>
+        <button className={`p-3 mt-4 mb-1  w-2/3 m-auto rounded-2xl cursor-pointer`}   style={{ 
+            backgroundColor: allInputIsValid ? "#EB637E" : "#F4F4F4", 
+            color: allInputIsValid ? "white" : "gray" 
+          }}  type="submit">Salvar</button>
         <a className='text-center text-black' href='/auth/user-login'>Ja tenho uma conta</a>
       </form>
-      </div>
-
-    </div>
+    </FormDiv>
   );
 }

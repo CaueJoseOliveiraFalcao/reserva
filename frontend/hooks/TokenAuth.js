@@ -10,7 +10,8 @@ const useRestaurantAuth = () => {
         const localRes = localStorage.getItem("user");
 
         if (!localRes){
-            console.log("localres")
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             router.push('/auth/restaurant-login');
             setAuthenticated(false);
             return
@@ -41,9 +42,13 @@ const useRestaurantAuth = () => {
                     router.push('/auth/restaurant-login'); 
                 })}else{
                     setAuthenticated(false);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
                     router.push('/auth/restaurant-login/');
                 }
             } else{
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
                 router.push('/auth/restaurant-login/')
             }
 
@@ -59,6 +64,8 @@ const useUserAuth = () => {
         const localUser = localStorage.getItem("user");
 
         if (!localUser){
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             router.push('/auth/restaurant-login');
             setAuthenticated(false);
             return
@@ -87,10 +94,14 @@ const useUserAuth = () => {
                     router.push('/auth/user-login');
                 });
             } else {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
                 setAuthenticated(false);
                 router.push('/auth/user-login');
             }
         }else{
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             setAuthenticated(false);
             router.push('/auth/user-login/');
         }

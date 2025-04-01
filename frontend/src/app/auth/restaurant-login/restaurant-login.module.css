@@ -1,6 +1,13 @@
 :global(input) {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+  width: 100%;
+  padding: 10px;
+  color: black;
+  border: 1px solid #ccc;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+}
+:global(label){
+  color: black;
+  margin-left: 0.7rem;
+}
+
