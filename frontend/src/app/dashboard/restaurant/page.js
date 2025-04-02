@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import  { useRestaurantAuth } from '../../../../hooks/TokenAuth';
 import { useEffect, useState } from 'react';
+import RestaurantHeader from '@/components/RestaurantHeader';
 
 export default function Page() {
     const authenticated = useRestaurantAuth();
@@ -24,6 +25,7 @@ export default function Page() {
 
     return (
         <div>
+            <RestaurantHeader/>
             <h1>DASHBOARD usuario = {user.name} cnpj = {user.cnpj}</h1>
             <a className='text-center m-auto text-black' href='/profile/restaurant'>EDITAR PERFIL</a>
         </div>

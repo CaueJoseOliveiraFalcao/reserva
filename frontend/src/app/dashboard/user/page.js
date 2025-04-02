@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useUserAuth } from '../../../../hooks/TokenAuth';
 import { useEffect } from 'react';
+import ClientHeader from '@/components/ClientHeader';
 
 export default function Page() {
     const authenticated = useUserAuth();
@@ -18,10 +19,15 @@ export default function Page() {
         return <p>Carregando...</p>;  
     }
 
-    const user = localStorage.getItem('user')
+    const user = JSON.parse(localStorage.getItem('user'));
     return (
         <div>
-            <h1>DASHBOARD {user}</h1>
+            <ClientHeader/>
+            <main className='min-h-screen text-black flex flex-col items-center'>
+                <p>Ola {user.name}</p>
+                <p>Cpf {user.cpf}</p>
+
+            </main>
         </div>
     );
 }
