@@ -1,20 +1,19 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import  { useRestaurantAuth } from '../../../../hooks/TokenAuth';
+import  { useUserAuth } from '../../../../hooks/TokenAuth';
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import RestaurantHeader from '@/components/RestaurantHeader';
 
 export default function Page() {
 
-    const authenticated = useRestaurantAuth();
+    const authenticated = useUserAuth();
     const [user , setUser] = useState('');
     const router = useRouter();
     const [profileShow , setProfile] = useState('');
 
     const [formData, setFormData] = useState({
         userName: '',
-        address: '',
         phone: '',
         profile: null
       });
@@ -29,7 +28,6 @@ export default function Page() {
     }
     const handleFIleChange  = (event) => {
         const file = event.target.files[0]
-        console.log(file);
         setFormData((prevData) => ({
             ...prevData,
             profile : file
@@ -37,7 +35,7 @@ export default function Page() {
     }
     useEffect(() => {
         if (authenticated === false){
-            router.push('/auth/restaurant-login')
+            router.push('/auth/user-login')
         }
     }, [authenticated , router]);
 
@@ -47,12 +45,11 @@ export default function Page() {
         if (localUser) {
             const objUser = JSON.parse(localUser);
 
-            setProfile(objUser.profile_picture);
-
+            setProfile(`http://localhost:8000/api/users/user-photo/${objUser.id}`);
+            
             setUser(objUser);
             setFormData({
                 userName : objUser.name,
-                address : objUser.address,
                 phone : objUser.phone,
                 profile : objUser.profile
             })
@@ -66,14 +63,13 @@ export default function Page() {
         const data = new FormData();
         data.append('userId' , userId);
         data.append('userName', formData.userName);
-        data.append('address', formData.address);
         data.append('phone', formData.phone);
         if (formData.profile) {
             data.append('profile', formData.profile); // Adiciona o arquivo ao FormData
         }
     
         try {
-            const response = await api.post('/restaurant/change-profile', data, {
+            const response = await api.post('/users/change-profile/', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
@@ -90,12 +86,12 @@ export default function Page() {
         <div className='flex justify-center  items-center flex-col'>
             <RestaurantHeader/>
             <main className='w-full md:w-3/4 lg:w-2/4 p-5 mt-10 flex flex-col items-center rounded-md text-black' style={{backgroundColor : '#F2F2F2' , fontFamily : "fantasy"}}>
-                <h1 className='text-center text-3xl mt-5 mb-5'>PERFIL DO RESTAURANTE</h1>
-            <div>
+                <h1 className='text-center text-3xl mt-5 mb-5'>Perfil Do Cliente</h1>
+            <div className='w-full'>
             <form 
             onSubmit={Send} 
             encType="multipart/form-data" 
-            className="flex flex-col justify-center items-center p-6 rounded-lg  w-full max-w-md"
+            className="flex flex-col justify-center items-center p-6 rounded-lg  w-full"
         >
             <label className="text-lg font-semibold mb-2">Foto de Perfil Atual</label>
             <img 
@@ -111,20 +107,11 @@ export default function Page() {
                 onChange={handleFIleChange}
             />
 
-            <label className="text-lg font-semibold mb-2">Nome Do Restaurante</label>
+            <label className="text-lg font-semibold mb-2">Nome Do Cliente</label>
             <input 
                 type="text" 
                 name="userName" 
                 value={formData.userName} 
-                onChange={handleChange} 
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
-            />
-
-            <label className="text-lg font-semibold mb-2">Endereço</label>
-            <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
                 onChange={handleChange} 
                 className="w-full p-2 border border-gray-300 rounded-md mb-4"
             />

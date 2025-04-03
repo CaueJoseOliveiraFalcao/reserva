@@ -74,8 +74,26 @@ const login = async (req, res) => {
       return res.status(401).send(error);
     }
    };
-   
-   module.exports = {
+   const change_profile = async (req , res) =>{
+    try{
+      const user = await  User.findOne({
+        where : {
+          id : req.body.userId
+        }
+      })
+      user.name = req.body.userName
+      user.phone = req.body.phone
+      user.profile_picture = `http://localhost:8000/api/users/user-photo/${user.id}`;
+      await user.save();
+    res.status(200).json({message : 'usuario alterado'})
+    }catch(err){
+      res.status(404).json({message : 'usuario nao encontrado'})
+    }
+
+
+   }
+   module.exports = {        
     signup,
     login,
+    change_profile, 
    };

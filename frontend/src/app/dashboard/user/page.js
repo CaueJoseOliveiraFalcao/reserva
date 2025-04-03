@@ -24,9 +24,12 @@ export default function Page() {
         <div>
             <ClientHeader/>
             <main className='min-h-screen text-black flex flex-col items-center'>
-                <p>Ola {user.name}</p>
-                <p>Cpf {user.cpf}</p>
-
+                {user && (
+                    <div>
+                        <p>Ola {user.name}</p>
+                        <p>Cpf {user.cpf}</p>
+                    </div>
+                )}
             </main>
         </div>
     );
