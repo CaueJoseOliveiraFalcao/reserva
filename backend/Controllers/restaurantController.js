@@ -93,11 +93,42 @@ const login = async (req, res) => {
     }catch(err){
       res.status(404).json({message : 'usuario nao encontrado'})
     }
+   };
+   const change_open_days = async(req , res) => {
+    const {userId , days} = req.body;
+    try{
+      const user = await Restaurant.findOne({
+        where : {
+          id : userId
+        }
+      })
 
+      if (user) {
+        const newData = req.body.days;
+
+        user.segunda = days.segunda;
+        user.terca = days.terca;
+        user.quarta = days.quarta;
+        user.quinta = days.quinta;
+        user.sexta = days.sexta;
+        user.sabado = days.sabado;
+        user.domingo = days.domingo;
+        await user.save();
+
+
+        res.status(200).json({message : 'dados alterados'})
+      }
+      else{
+        res.status(404).json({message : 'usuario nao encontrado'})
+      }
+    }catch(error){
+      res.status(500).json({message : 'erro interno'})
+    }
 
    }
    module.exports = {
     signup,
     login,
-    change_profile
+    change_profile,
+    change_open_days,
    };

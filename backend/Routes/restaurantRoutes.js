@@ -1,7 +1,7 @@
 //importing modules
 const express = require('express')
 const restaurantController = require('../Controllers/restaurantController')
-const { signup, login , change_profile } = restaurantController
+const { signup, login , change_profile , change_open_days } = restaurantController
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
@@ -46,5 +46,7 @@ router.get('/verify-restaurant-token'  , restaurantAuth.verify_token);
 
 
 router.post('/change-profile' ,upload.single('profile'), change_profile);
+
+router.post('/change-open-days' ,restaurantAuth.verify_token_each , change_open_days)
 
 module.exports = router;

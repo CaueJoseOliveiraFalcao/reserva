@@ -38,6 +38,41 @@ const Restaurant = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true
         },
+        segunda: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        terca: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        quarta: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        quinta: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        sexta: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        sabado: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
+        domingo: {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false
+        },
     }, {
         timestamps: true,
         tableName: 'restaurants'
