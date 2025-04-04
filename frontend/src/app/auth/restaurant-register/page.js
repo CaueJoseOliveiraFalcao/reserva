@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import {styles} from './restaurant-register.module.css'
@@ -39,16 +39,13 @@ export default function RegistroRestaurante() {
       });
 
       alert('Cadastro realizado com sucesso!');
-
       const user = response.data[0];
       const token = response.data[1];
 
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', JSON.stringify(token));
+      router.push('/dashboard/restaurant/');
 
-      console.log(localStorage.getItem('token'));
-
-      router.push('/dashboard/restaurant');
     } catch (error) {
       alert(error.response?.data?.error || 'Erro ao registrar.');
     }

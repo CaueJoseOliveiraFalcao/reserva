@@ -34,7 +34,7 @@ const signup = async (req , res) => {
         console.log('user' , JSON.stringify(restaurant, null , 2))
         console.log("token" , token);
 
-        return res.status(201).send(restaurant);
+        return res.status(201).send([restaurant , token]);
         } else {
             return res.status(500).send('incorrect details');
         }

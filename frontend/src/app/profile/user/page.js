@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import  { useUserAuth } from '../../../../hooks/TokenAuth';
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
-import RestaurantHeader from '@/components/RestaurantHeader';
+import ClientHeader from '@/components/ClientHeader';
 
 export default function Page() {
 
@@ -84,7 +84,7 @@ export default function Page() {
 
     return (
         <div className='flex justify-center  items-center flex-col'>
-            <RestaurantHeader/>
+            <ClientHeader/>
             <main className='w-full md:w-3/4 lg:w-2/4 p-5 mt-10 flex flex-col items-center rounded-md text-black' style={{backgroundColor : '#F2F2F2' , fontFamily : "fantasy"}}>
                 <h1 className='text-center text-3xl mt-5 mb-5'>Perfil Do Cliente</h1>
             <div className='w-full'>

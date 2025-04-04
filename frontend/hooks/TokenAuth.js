@@ -17,7 +17,6 @@ const useRestaurantAuth = () => {
             return
         }
 
-
         const restaurant = JSON.parse(localRes)
         const restaurantcnpj = restaurant?.cnpj;
         if (restaurant.cpf){

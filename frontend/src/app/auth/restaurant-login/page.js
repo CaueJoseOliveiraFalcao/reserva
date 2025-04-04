@@ -34,8 +34,6 @@ export default function LoginRestaurant() {
         password: data.senha
       });
 
-      alert('LOgado com sucesso!');
-
       const user = response.data[0];
       const token = response.data[1];
       localStorage.setItem('user', JSON.stringify(user));
