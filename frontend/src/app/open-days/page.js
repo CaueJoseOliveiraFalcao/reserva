@@ -65,7 +65,7 @@ export default function Page() {
                     Authorization : `Bearer ${token}`,
                 },
             })
-                alert("Alterações salvas!");
+                alert("Alterações dsalvas!");
                 localStorage.removeItem('user');
                 localStorage.removeItem('token');
                 window.location.reload();
