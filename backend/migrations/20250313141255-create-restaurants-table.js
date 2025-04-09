@@ -49,41 +49,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      segunda: {
-        type : Sequelize.BOOLEAN,
-        allowNull : false,
-        defaultValue : false
-      },
-      terca: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
-      quarta: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
-      quinta: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
-      sexta: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
-      sabado: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
-      domingo: {
-          type : Sequelize.BOOLEAN,
-          allowNull : false,
-          defaultValue : false
-      },
     });
   },
 

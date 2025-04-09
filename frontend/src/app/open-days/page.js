@@ -84,6 +84,8 @@ export default function Page() {
                         <thead>
                             <tr className="bg-gray-200 text-black">
                                 <th className="p-2 border">Dia</th>
+                                <th className="p-2 border">Inicio</th>
+                                <th className="p-2 border">Fim</th>
                                 <th className="p-2 border">Stauts</th>
                             </tr>
                         </thead>
@@ -91,6 +93,8 @@ export default function Page() {
                             {Object.entries(days).map(([day, value]) => (
                                 <tr key={day} className="border">
                                     <td className="p-2 capitalize">{day}</td>
+                                    <td className="p-2 text-center"><input type="time" name="start" /></td>
+                                    <td className="p-2 text-center"><input type="time" name="end" /></td>
                                     <td className="p-2 text-center">
                                         <input
                                             type="checkbox"
@@ -99,8 +103,10 @@ export default function Page() {
                                             className="w-5 h-5"
                                         />
                                     </td>
+
                                 </tr>
                             ))}
+   
                         </tbody>
                     </table>
                     <button
