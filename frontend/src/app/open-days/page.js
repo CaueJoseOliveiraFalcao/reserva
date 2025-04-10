@@ -12,53 +12,33 @@ export default function Page() {
     const [user , setUser] = useState(new Object);
     const router = useRouter();
     useEffect(() => {
+        const user = localStorage.getItem("user");
+        const convetted = JSON.parse(user);
+        const userId = convetted.id
+        console.log(userId);
+        getDays(userId);
         if (authenticated === false){
             router.push('/auth/restaurant-login')
         }
     }, [authenticated , router]);
 
-    const [days, setDays] = useState({
-        segunda: false,
-        terca: false,
-        quarta: false,
-        quinta: false,
-        sexta: false,
-        sabado: false,
-        domingo: false,
-    });
-
-    useEffect(() => {
-        const localUser = localStorage.getItem("user");
-
-        if (localUser) {
-            const objUser = JSON.parse(localUser);
-            setUser(objUser);
+    const getDays = async (userId) => {
+        const token = localStorage.getItem("token");
+        try{
+            const response = await api.get('/days/get-user-days' , userId , {
+                headers : {
+                    Authorization : `Bearer ${token}`,
+                },
+            })
+                alert("Alterações dsalvas!");
+        }catch(error) {
+            console.log(error);
         }
-    }, [])
-    useEffect(() => {
-        if (user) {
-            setDays({
-                segunda: user.segunda || false,
-                terca: user.terca || false,
-                quarta: user.quarta || false,
-                quinta: user.quinta || false,
-                sexta: user.sexta || false,
-                sabado: user.sabado || false,
-                domingo: user.domingo || false,
-            });
-        }
-    }, [user]);
-    const handleChange = (day) => {
-        setDays((prevState) => ({
-            ...prevState,
-            [day]: !prevState[day],
-        }));
-    };
-
+    }
     const handleSubmit = async () => {
         const token = localStorage.getItem("token")
         const userId = user.id;
-        console.log(days)
+        console.log(days);
         try{
             const response = await api.post('/restaurant/change-open-days' , {days , userId} , {
                 headers : {
@@ -90,22 +70,6 @@ export default function Page() {
                             </tr>
                         </thead>
                         <tbody className="text-black">
-                            {Object.entries(days).map(([day, value]) => (
-                                <tr key={day} className="border">
-                                    <td className="p-2 capitalize">{day}</td>
-                                    <td className="p-2 text-center"><input type="time" name="start" /></td>
-                                    <td className="p-2 text-center"><input type="time" name="end" /></td>
-                                    <td className="p-2 text-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={value}
-                                            onChange={() => handleChange(day)}
-                                            className="w-5 h-5"
-                                        />
-                                    </td>
-
-                                </tr>
-                            ))}
    
                         </tbody>
                     </table>
@@ -119,4 +83,5 @@ export default function Page() {
             </div>
         </div>
     );
+
 }
