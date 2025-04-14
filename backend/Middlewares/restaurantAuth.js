@@ -2,7 +2,7 @@
 const express = require("express");
 const db = require("../Models");
 const jwt = require("jsonwebtoken");
- const Restaurant = db.restaurant;
+ const Restaurant = db.Restaurant;
 
  const verify_token_each = async (req , res, next) => {
   try {

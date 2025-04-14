@@ -3,7 +3,7 @@ const db = require("../Models");
 const jwt = require("jsonwebtoken");
 const { use } = require("../Routes/userRoutes");
 
-const User = db.users
+const User = db.Users
 
 
 const signup = async (req , res) => {

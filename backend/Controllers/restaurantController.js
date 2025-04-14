@@ -6,7 +6,7 @@ const multer = require('multer');
 const { where } = require("sequelize");
 
 const upload = multer({dest : 'uploads/'});
-const Restaurant = db.restaurant
+const Restaurant = db.Restaurant
 
 
 const signup = async (req , res) => {

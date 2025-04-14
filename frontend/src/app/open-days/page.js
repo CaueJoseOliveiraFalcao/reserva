@@ -12,29 +12,41 @@ export default function Page() {
     const [user , setUser] = useState(new Object);
     const router = useRouter();
     useEffect(() => {
+
+        if (authenticated === false){
+            router.push('/auth/restaurant-login')
+        }
+    }, [authenticated , router]);
+    useEffect(() => {
         const user = localStorage.getItem("user");
         const convetted = JSON.parse(user);
         const userId = convetted.id
         console.log(userId);
         getDays(userId);
-        if (authenticated === false){
-            router.push('/auth/restaurant-login')
-        }
-    }, [authenticated , router]);
-
+    })
     const getDays = async (userId) => {
         const token = localStorage.getItem("token");
-        try{
-            const response = await api.get('/days/get-user-days' , userId , {
-                headers : {
-                    Authorization : `Bearer ${token}`,
-                },
-            })
-                alert("Alterações dsalvas!");
-        }catch(error) {
-            console.log(error);
+        console.log(token);
+        if (!token) {
+            return false;
         }
-    }
+
+        try {
+            const response = await api.get('/days/get-user-days', {
+              params: { userId },
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            alert("Alterações salvas!");
+          } catch (error) {
+            console.error("Erro ao obter os dias:", error);
+            if (error.response) {
+              console.error("Status:", error.response.status);
+              console.error("Dados:", error.response.data);
+            }
+          }
+        };
     const handleSubmit = async () => {
         const token = localStorage.getItem("token")
         const userId = user.id;

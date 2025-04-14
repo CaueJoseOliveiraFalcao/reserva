@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('@sequelize/core');
 const { MySqlDialect } = require('@sequelize/mysql');
 const dotenv = require('dotenv');
-
+dotenv.config();
 const sequelize = new Sequelize({
   dialect: MySqlDialect,
   database: process.env.DB_NAME,
@@ -21,7 +21,17 @@ const db ={}
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require("./userModel") (sequelize , DataTypes)
-db.restaurant = require("./restaurantModel") (sequelize , DataTypes)
+// Carregar modelos
+db.Users = require("./userModel")(sequelize, DataTypes);
+db.Restaurant = require("./restaurantModel")(sequelize, DataTypes);
+db.RestaurantOpeningDay = require("./RestaurantOpeningDay")(sequelize, DataTypes);
+
+// Definir associações
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
 
 module.exports = db;
