@@ -4,10 +4,10 @@ const dotenv = require('dotenv');
 
 const sequelize = new Sequelize({
   dialect: MySqlDialect,
-  database: 'reserva',
-  user: 'root',
-  password: 'C4u3j0s3',
-  host: 'localhost',
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  host: process.env.DB_HOST,
   port: 3306,
 });
 
