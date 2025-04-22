@@ -98,18 +98,16 @@ export default function Page() {
         };
     const handleSubmit = async () => {
         const token = localStorage.getItem("token")
+        const user = JSON.parse(localStorage.getItem("user"))
         const userId = user.id;
-        console.log(days);
+        console.log(userId);
         try{
-            const response = await api.post('/restaurant/change-open-days' , {days , userId} , {
+            const response = await api.post('/days/change-open-days' , {days , userId} , {
                 headers : {
                     Authorization : `Bearer ${token}`,
                 },
             })
                 alert("Alterações dsalvas!");
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                window.location.reload();
         }catch(error) {
             console.log(error);
         }
@@ -132,6 +130,14 @@ export default function Page() {
         }
         }))
     }
+    const handleCheck = (dayName) => {
+        setDays(prevDays => ({
+            ...prevDays,
+            [dayName] : {
+                ...prevDays[dayName],
+                isTrue: !prevDays[dayName].isTrue
+        }
+    }))}
     console.log(days);
     return (
         <div className="min-h-screen bg-gray-100">
@@ -157,7 +163,7 @@ export default function Page() {
                                 <td className="p-2 border">{dayName}</td>
                                 <td className="p-2 border"><input type="time" value={dayData.init || ''} onChange={(e) => handleInit(dayName , e.target.value)} ></input></td>
                                 <td className="p-2 border"><input type="time" value={dayData.end || ''} onChange={(e) => handleEnd(dayName , e.target.value)} ></input></td>
-                                <td className="p-2 border"><input checked={dayData.isTrue} type="checkbox"></input></td>
+                                <td className="p-2 border"><input onChange={() => handleCheck(dayName)} checked={dayData.isTrue} type="checkbox"></input></td>
                                 </tr>
                             ))}
                             </tbody>
