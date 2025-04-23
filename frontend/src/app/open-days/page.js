@@ -48,12 +48,10 @@ export default function Page() {
         const user = localStorage.getItem("user");
         const convetted = JSON.parse(user);
         const userId = convetted.id
-        console.log(userId);
         getDays(userId);
     },[])
     const getDays = async (userId) => {
         const token = localStorage.getItem("token");
-        console.log(token);
         if (!token) {
             return false;
         }
@@ -65,7 +63,6 @@ export default function Page() {
                 Authorization: `Bearer ${token}`,
               },
             });
-            console.log(response);
             const Array_days = response.data.restaurantOpeningDays;
 
             setDays((prevDays) => {
@@ -81,7 +78,6 @@ export default function Page() {
                             isTrue : true
                         }
                     }
-                    console.log(updatedDays[day])
                 });
 
                 return updatedDays; 
@@ -100,14 +96,13 @@ export default function Page() {
         const token = localStorage.getItem("token")
         const user = JSON.parse(localStorage.getItem("user"))
         const userId = user.id;
-        console.log(userId);
         try{
             const response = await api.post('/days/change-open-days' , {days , userId} , {
                 headers : {
                     Authorization : `Bearer ${token}`,
                 },
             })
-                alert("Alterações dsalvas!");
+            window.location.reload();
         }catch(error) {
             console.log(error);
         }
@@ -117,7 +112,7 @@ export default function Page() {
             ...prevDays,
             [dayName] : {
                 ...prevDays[dayName],
-                init: init
+                init: init,
         }
         }))
     }
@@ -126,7 +121,7 @@ export default function Page() {
             ...prevDays,
             [dayName] : {
                 ...prevDays[dayName],
-                end: end
+                end: end,
         }
         }))
     }
@@ -144,7 +139,7 @@ export default function Page() {
             <RestaurantHeader />
 
             <div className="flex justify-center items-center mt-10">
-                <div className="bg-white shadow-lg rounded-lg p-6 w-96">
+                <div className="bg-white shadow-lg rounded-lg p-6 w-1/3">
                     <h2 className="text-xl text-black font-bold mb-4 text-center">Dias de Funcionamento</h2>
                     <form>
                     <table className="w-full border-collapse border rounded-lg border-gray-300">
@@ -153,7 +148,7 @@ export default function Page() {
                                 <th className="p-2 border">Dia</th>
                                 <th className="p-2 border">Inicio</th>
                                 <th className="p-2 border">Fim</th>
-                                <th className="p-2 border">Stauts</th>
+                                <th className="p-2 border">Funcionamento</th>
                             </tr>
                         </thead>
 
