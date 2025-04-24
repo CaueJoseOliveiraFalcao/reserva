@@ -39,7 +39,7 @@ export default function LoginRestaurant() {
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', JSON.stringify(token));
 
-      console.log(localStorage.getItem('token'));
+      alert('Login realizado com sucesso!');
       router.push('/dashboard/restaurant');
     } catch (error) { 
       alert(error.response?.data?.error || 'Erro ao registrar.');

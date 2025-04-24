@@ -37,11 +37,9 @@ export default function RegistroRestaurante() {
         phone: data.phone,
         address: data.address
       });
-
-      alert('Cadastro realizado com sucesso!');
       const user = response.data[0];
       const token = response.data[1];
-
+      console.log(token);
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', JSON.stringify(token));
       router.push('/dashboard/restaurant/');

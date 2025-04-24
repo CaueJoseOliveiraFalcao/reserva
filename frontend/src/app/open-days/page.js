@@ -37,6 +37,16 @@ export default function Page() {
             end : null,
             isTrue : false,
         },
+        Sabado  : {
+            init : null,
+            end : null,
+            isTrue : false,
+        },
+        Domingo  : {
+            init : null,
+            end : null,
+            isTrue : false,
+        },
     })
     useEffect(() => {
 
