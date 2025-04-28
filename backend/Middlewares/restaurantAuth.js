@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
  const verify_token_each = async (req , res, next) => {
   try {
     const RestaurantToken = req.headers.authorization;
-
     if (!RestaurantToken) {
       return res.status(401).json({ error: "Token não fornecido" });
     }

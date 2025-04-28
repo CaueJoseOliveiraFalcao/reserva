@@ -47,10 +47,11 @@ const Restaurant = (sequelize, DataTypes) => {
       Restaurant.hasMany(models.RestaurantOpeningDay, {
         foreignKey: 'restaurant_id'
       });
-      Restaurant.hasMany(models.Product, {
-        foreignKey: 'restaurant_id'
-      });
+      Restaurant.hasMany(models.Product, { 
+            foreignKey: 'restaurant_id',
+        });
     };
+    
   
     return Restaurant;
   };

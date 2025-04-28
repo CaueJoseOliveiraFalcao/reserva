@@ -7,6 +7,7 @@ const db = require('./Models')
 const userRoutes = require ('./Routes/userRoutes')
 const restaurantRoutes = require ('./Routes/restaurantRoutes')
 const daysRoutes = require ("./Routes/openDaysRoutes");
+const productsRoutes = require("./Routes/productRoutes");
 const cors = require('cors');
 const multer = require('multer');
 const PORT = process.env.PORT || 8000
@@ -31,6 +32,7 @@ db.sequelize.sync().then(() => {
 app.use('/api/users' , userRoutes);
 app.use('/api/restaurant' , restaurantRoutes);
 app.use('/api/days' , daysRoutes);
+app.use('/api/product' , productsRoutes);
 
 
 app.listen(PORT , ()=>console.log("Server is on PORT" , PORT));
