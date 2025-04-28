@@ -57,7 +57,7 @@ export default function Page() {
     useEffect(() => {
         const user = localStorage.getItem("user");
         const convetted = JSON.parse(user);
-        const userId = convetted.id
+        const userId = user ? convetted.id : '';
         getDays(userId);
     },[])
     const getDays = async (userId) => {
