@@ -51,10 +51,43 @@ const create = async (req , res) => {
     }
 }
 const edit = async (req , res) => {
-    return console.log(res);
+    const {EditId , EditName , EditValue , EditDescription} = req.body;
+
+    try {
+        const product = await Product.findOne({
+            where : {id : EditId}
+        })
+        console.log(product);
+        product.name = EditName;
+        product.price = EditValue;
+        product.EditDescription = EditDescription;
+        product.save();
+        return res.status(200).json({message : 'foi'});
+
+    }catch(Err){
+        console.log(Err);
+        return res.status(404).json({message : 'nao encontrado'});
+    }
 }
 const destroy = async (req , res) => {
-    return console.log(res);
+    const productId =req.body.productId;
+
+    try {
+        const product = await Product.findOne({
+            where : {
+                id : productId
+            }
+        })
+        if (product){
+            await product.destroy();
+            return res.status(200).json({message : 'produto deletado'});
+    
+        }
+        return res.status(404).json({message : 'produto nao encontrado'});
+
+    }catch(err){
+        return res.status(500).json({message : 'error'});
+    }
 }
 
 
