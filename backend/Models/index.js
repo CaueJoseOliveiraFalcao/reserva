@@ -26,7 +26,9 @@ db.Users = require("./userModel")(sequelize, DataTypes);
 db.Restaurant = require("./restaurantModel")(sequelize, DataTypes);
 db.RestaurantOpeningDay = require("./RestaurantOpeningDay")(sequelize, DataTypes);
 db.Product = require("./Product")(sequelize, DataTypes);
-// Definir associações
+db.Table = require("./Table")(sequelize, DataTypes);
+
+
 Object.keys(db).forEach(modelName => {
   if (db[modelName]?.associate) {
     db[modelName].associate(db);
