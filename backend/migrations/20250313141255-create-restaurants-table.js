@@ -49,6 +49,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      default_time_permanence: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 60
+      },
+      auto_close_time_permanence: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
     });
   },
 

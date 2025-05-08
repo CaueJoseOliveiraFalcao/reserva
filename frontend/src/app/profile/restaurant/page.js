@@ -11,22 +11,26 @@ export default function Page() {
     const [user , setUser] = useState('');
     const router = useRouter();
     const [profileShow , setProfile] = useState('');
-
+    const [defaultTimePermanence, setDefaultTimePermanence] = useState(60);
+const [autoCloseTimePermanence, setAutoCloseTimePermanence] = useState(false);
     const [formData, setFormData] = useState({
         userName: '',
         address: '',
         phone: '',
-        profile: null
-      });
-
-    const handleChange  = (event) => {
-        const {name , value} = event.target
-
+        profile: null,
+        defaultTimePermanence: 60,
+        autoCloseTimePermanence: false
+    });
+    
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        
         setFormData((prevData) => ({
             ...prevData,
-            [name] : value
+            [name]: name === "autoCloseTimePermanence" ? Boolean(value) : value
         }));
-    }
+    };
+    
     const handleFIleChange  = (event) => {
         const file = event.target.files[0]
         console.log(file);
@@ -54,7 +58,9 @@ export default function Page() {
                 userName : objUser.name,
                 address : objUser.address,
                 phone : objUser.phone,
-                profile : objUser.profile
+                profile : objUser.profile,
+                autoCloseTimePermanence : objUser.auto_close_time_permanence,
+                defaultTimePermanence : objUser.default_time_permanence,
             })
 
         }
@@ -68,6 +74,9 @@ export default function Page() {
         data.append('userName', formData.userName);
         data.append('address', formData.address);
         data.append('phone', formData.phone);
+        data.append("defaultTimePermanence", formData.defaultTimePermanence);
+        data.append("autoCloseTimePermanence", formData.autoCloseTimePermanence);
+
         if (formData.profile) {
             data.append('profile', formData.profile); // Adiciona o arquivo ao FormData
         }
@@ -137,7 +146,25 @@ export default function Page() {
                 onChange={handleChange} 
                 className="w-full p-2 border border-gray-300 rounded-md mb-4"
             />
+            <label className="text-lg font-semibold mb-2">Tempo de Permanência (minutos)</label>
+            <input 
+                type="number" 
+                name="defaultTimePermanence" 
+                value={formData.defaultTimePermanence} 
+                onChange={handleChange} 
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+            />
 
+            <label className="text-lg font-semibold mb-2">Fechamento Automático?</label>
+            <select 
+                name="autoCloseTimePermanence" 
+                value={formData.autoCloseTimePermanence} 
+                onChange={handleChange} 
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+            >
+                <option value={true}>Sim</option>
+                <option value={false}>Não</option>
+            </select>
             <input 
                 type="submit" 
                 value="Salvar Alterações" 

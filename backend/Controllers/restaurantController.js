@@ -3,7 +3,7 @@ const db = require("../Models");
 const jwt = require("jsonwebtoken");
 const { use } = require("../Routes/userRoutes");
 const multer = require('multer');
-const { where } = require("sequelize");
+const { where, BOOLEAN } = require("sequelize");
 
 const upload = multer({dest : 'uploads/'});
 const Restaurant = db.Restaurant
@@ -11,7 +11,7 @@ const Restaurant = db.Restaurant
 
 const signup = async (req , res) => {
     try{
-        const {name , email , cnpj ,address, password , phone} = req.body
+        const {name , email , cnpj ,address, password , phone , time , auto_close_time_permanence} = req.body
         const data = {
             name,
             email,
@@ -19,6 +19,8 @@ const signup = async (req , res) => {
             password : await bcrypt.hash(password , 10),
             address,
             phone,
+            default_time_permanence : time,
+            auto_close_time_permanence,
         };
         
         const restaurant = await Restaurant.create(data);
@@ -78,19 +80,23 @@ const login = async (req, res) => {
     }
    };
    const change_profile = async (req , res) =>{
+    const userId = req.body.userId;
     try{
-      const user = await  Restaurant.findOne({
+      const user = await Restaurant.findOne({
         where : {
-          id : req.body.userId
+          id : userId
         }
       })
       user.name = req.body.userName
       user.address = req.body.address
       user.phone = req.body.phone
+      user.default_time_permanence = req.body.defaultTimePermanence;
+      user.auto_close_time_permanence = req.body.autoCloseTimePermanence === "true" ? true : false;
       user.profile_picture = `http://localhost:8000/api/restaurant/restaurant-photo/${user.id}`;
       await user.save();
     res.status(200).json({message : 'usuario alterado'})
     }catch(err){
+      console.log(err);
       res.status(404).json({message : 'usuario nao encontrado'})
     }
    };

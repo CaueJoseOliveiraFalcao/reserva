@@ -26,38 +26,62 @@ module.exports = {
     }
   },  
 
-  // GET /api/tables/:id
-  async show(req, res) {
-    try {
-      const table = await Table.findByPk(req.params.id, { include: ['restaurant'] });
-      if (!table) return res.status(404).json({ error: 'Table not found' });
-      return res.json(table);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: 'Failed to fetch table' });
-    }
-  },
 
   // POST /api/tables
   async create(req, res) {
+    const { restaurant_id, table_number, table_capacity } = req.body;
+    console.log(restaurant_id, table_number, table_capacity);
     try {
-      const { restaurant_id, table_number, table_capacity } = req.body;
-      const newTable = await Table.create({ restaurant_id, table_number, table_capacity });
-      return res.status(201).json(newTable);
-    } catch (err) {
-      console.error(err);
-      return res.status(400).json({ error: 'Failed to create table' });
+        const restaurant = await Restaurant.findOne({
+            where : {
+                id : restaurant_id
+            },
+            include : [Table],
+        });
+        const table = await Table.findOne({
+            where : {
+                restaurant_id,
+                table_number
+            }
+        });
+        if(table){
+            return res.status(404).json({message : 'mesa ja existe'});
+        }
+        if(!restaurant){
+          return res.status(404).json({message : 'usuario nao encontrado'});
+      }
+        const newTable = await Table.create({ restaurant_id, table_number, table_capacity });
+        newTable.save();
+        return res.status(200).send(message = 'mesa criada com sucesso');
+    }catch(err){
+        return res.status(404).json({message : 'usuario nao encontrado'});
     }
-  },
+
+    },
 
   // PUT /api/tables/:id
   async update(req, res) {
     try {
-      const { restaurant_id, table_number, table_capacity } = req.body;
-      const table = await Table.findByPk(req.params.id);
+      const { restaurant_id, table_id, table_number, table_capacity } = req.body;
+      const restaurant = await Restaurant.findOne({
+          where : {
+              id : restaurant_id
+          },
+      });
+      if(!restaurant){
+        return res.status(404).json({message : 'usuario nao encontrado'});
+      }
+      const table = await Table.findOne({
+        where: {
+          id: table_id,
+        }
+      });
+
       if (!table) return res.status(404).json({ error: 'Table not found' });
+
       await table.update({ restaurant_id, table_number, table_capacity });
-      return res.json(table);
+
+      return res.status(200).send(message = 'mesa alterada com sucesso');
     } catch (err) {
       console.error(err);
       return res.status(400).json({ error: 'Failed to update table' });
@@ -66,11 +90,26 @@ module.exports = {
 
   // DELETE /api/tables/:id
   async destroy(req, res) {
+    const { restaurant_id, table_id } = req.body;
+    console.log(restaurant_id, table_id);
     try {
-      const table = await Table.findByPk(req.params.id);
+        const restaurant = await Restaurant.findOne({
+          where : {
+              id : restaurant_id
+          },
+      });
+      if(!restaurant){
+      return res.status(404).json({message : 'usuario nao encontrado'});
+    }
+      const table = await Table.findOne({
+        where: {
+          id: table_id,
+        }
+      });
       if (!table) return res.status(404).json({ error: 'Table not found' });
+
       await table.destroy();
-      return res.status(204).send();
+      return res.status(200).send();
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: 'Failed to delete table' });

@@ -38,6 +38,16 @@ const Restaurant = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      default_time_permanence: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 60,
+      },
+      auto_close_time_permanence: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     }, {
       timestamps: false,
       tableName: 'restaurants'

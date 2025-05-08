@@ -6,8 +6,9 @@ import {styles} from './restaurant-register.module.css'
 import FormDiv from '@/components/FormDiv';
 
 export default function RegistroRestaurante() {
-  const [form, setForm] = useState({ name: '', cnpj: '', email: '', senha: '', phone: '', address: '' });
+  const [form, setForm] = useState({ name: '', cnpj: '', email: '', senha: '', phone: '', address: '', time : 60});
   const [allInputIsValid , setIsvalid] = useState(false)
+  const [autoClose , setAutoClose] = useState(false)
   const router = useRouter();
   const allValuesAreTrue = () => {
     setIsvalid(Object.values(form).every(value => value.trim() !== ''));
@@ -35,7 +36,9 @@ export default function RegistroRestaurante() {
         email: data.email,
         password: data.senha,
         phone: data.phone,
-        address: data.address
+        address: data.address,
+        time : data.time,
+        auto_close_time_permanence: Boolean(autoClose),
       });
       const user = response.data[0];
       const token = response.data[1];
@@ -65,6 +68,10 @@ export default function RegistroRestaurante() {
           <input name="phone" placeholder="insira seu telefone" value={form.phone} onChange={handleChange} required />
           <label>Endereço</label>
           <input name="address" placeholder="digite seu endereço" value={form.address} onChange={handleChange} required />
+          <label>Tempo de Permanencia do Cliente(minutos)</label>
+          <input name="time" placeholder="tempo que o cliente provavelmente vai passar" value={form.time} onChange={handleChange} required />
+          <label>Fechar Mesa Automaticamente ? </label>
+          <input type='checkbox' name="auto_close" value={autoClose} onChange={(e) => setAutoClose(e.target.value)} required />
           <button className={`p-3 mt-4 mb-1  w-2/3 m-auto rounded-2xl cursor-pointer`}   style={{ 
             backgroundColor: allInputIsValid ? "#EB637E" : "#F4F4F4", 
             color: allInputIsValid ? "white" : "gray" 
