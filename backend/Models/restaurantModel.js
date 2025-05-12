@@ -63,6 +63,9 @@ const Restaurant = (sequelize, DataTypes) => {
       Restaurant.hasMany(models.Table, { 
             foreignKey: 'restaurant_id',
         });
+      Restaurant.hasMany(models.Reservation, { 
+          foreignKey: 'restaurant_id',
+      });
     };
     
   

@@ -90,7 +90,7 @@ export default function Page (){
                       },
                 }
             ).then(() => {
-                alert('usuario Criado');
+                alert('Produto criado');
                 window.location.reload();
             });
 

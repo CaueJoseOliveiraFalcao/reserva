@@ -30,9 +30,18 @@ const User = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        
     }, {
         timestamps: true,
         tableName: 'users'
     });
+
+    User.associate = (models) => {
+        User.hasMany(models.Reservation, {
+          foreignKey: 'user_id'
+        });
+    };
+    
+    
 };
 module.exports = User;

@@ -162,7 +162,7 @@ export default function Page (){
                         <thead>
                             <tr className="bg-gray-200 text-black">
                                 <th className="p-2 border">Numero</th>
-                                <th className="p-2 border">Caoacidade</th>
+                                <th className="p-2 border">Capacidade</th>
                                 <th className="p-2 border">Editar</th>
                                 <th className="p-2 border">Deletar</th>
                             </tr>
