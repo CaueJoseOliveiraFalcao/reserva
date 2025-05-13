@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       Table.belongsTo(models.Restaurant, {
         foreignKey: 'restaurant_id',
       });
-        User.hasMany(models.Reservation, {
+        Table.hasOne(models.Reservation, {
           foreignKey: 'table_id',
         });
     };

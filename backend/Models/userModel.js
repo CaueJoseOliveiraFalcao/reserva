@@ -1,5 +1,5 @@
 const User = (sequelize, DataTypes) => {
-    return sequelize.define('User', {
+    const User = sequelize.define('User', {
         id: {
             type: DataTypes.BIGINT.UNSIGNED,
             autoIncrement: true,
@@ -29,7 +29,7 @@ const User = (sequelize, DataTypes) => {
         phone: {
             type: DataTypes.STRING,
             allowNull: false
-        },
+        }
         
     }, {
         timestamps: true,
@@ -38,10 +38,11 @@ const User = (sequelize, DataTypes) => {
 
     User.associate = (models) => {
         User.hasMany(models.Reservation, {
-          foreignKey: 'user_id'
+          foreignKey: 'client_id'
         });
     };
     
+    return User
     
 };
 module.exports = User;

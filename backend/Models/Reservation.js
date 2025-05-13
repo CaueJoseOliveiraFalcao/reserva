@@ -55,7 +55,7 @@ const Reservation = (sequelize, DataTypes) => {
             foreignKey: 'restaurant_id',
             as: 'restaurant',
         });
-        Reservation.belongsTo(models.User, {
+        Reservation.belongsTo(models.Users, {
             foreignKey: 'client_id',
         });
         Reservation.belongsTo(models.Table, {

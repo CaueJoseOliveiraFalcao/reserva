@@ -27,7 +27,7 @@ db.Restaurant = require("./restaurantModel")(sequelize, DataTypes);
 db.RestaurantOpeningDay = require("./RestaurantOpeningDay")(sequelize, DataTypes);
 db.Product = require("./Product")(sequelize, DataTypes);
 db.Table = require("./Table")(sequelize, DataTypes);
-
+db.Reservation = require("./Reservation")(sequelize , DataTypes);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName]?.associate) {
