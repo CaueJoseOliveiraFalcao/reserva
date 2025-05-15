@@ -1,21 +1,21 @@
 const Reservation = (sequelize, DataTypes) => {
     const Reservation = sequelize.define('Reservation', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false,
         },
         restaurant_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT.UNSIGNED,
             allowNull: false,
         },
         client_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT.UNSIGNED,
             allowNull: false,
         },
         table_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT.UNSIGNED,
             allowNull: false,
         },
         date_reservation : {
@@ -53,7 +53,6 @@ const Reservation = (sequelize, DataTypes) => {
     Reservation.associate = (models) => {
         Reservation.belongsTo(models.Restaurant, {
             foreignKey: 'restaurant_id',
-            as: 'restaurant',
         });
         Reservation.belongsTo(models.Users, {
             foreignKey: 'client_id',

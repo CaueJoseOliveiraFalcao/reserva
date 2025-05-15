@@ -11,7 +11,7 @@ export default function RegistroRestaurante() {
   const [autoClose , setAutoClose] = useState(false)
   const router = useRouter();
   const allValuesAreTrue = () => {
-    setIsvalid(Object.values(form).every(value => value.trim() !== ''));
+    setIsvalid(Object.values(form).every(value => value !== ''));
   }
   setTimeout(allValuesAreTrue, 0);
   const handleChange = (e) => {
@@ -71,7 +71,7 @@ export default function RegistroRestaurante() {
           <label>Tempo de Permanencia do Cliente(minutos)</label>
           <input name="time" placeholder="tempo que o cliente provavelmente vai passar" value={form.time} onChange={handleChange} required />
           <label>Fechar Mesa Automaticamente ? </label>
-          <input type='checkbox' name="auto_close" value={autoClose} onChange={(e) => setAutoClose(e.target.value)} required />
+          <input type='checkbox' name="auto_close" value={autoClose} onChange={(e) => setAutoClose(e.target.value)}  />
           <button className={`p-3 mt-4 mb-1  w-2/3 m-auto rounded-2xl cursor-pointer`}   style={{ 
             backgroundColor: allInputIsValid ? "#EB637E" : "#F4F4F4", 
             color: allInputIsValid ? "white" : "gray" 
