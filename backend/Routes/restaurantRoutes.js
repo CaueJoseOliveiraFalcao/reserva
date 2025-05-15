@@ -1,11 +1,12 @@
 //importing modules
 const express = require('express')
 const restaurantController = require('../Controllers/restaurantController')
-const { signup, login , change_profile } = restaurantController
+const { signup, login , change_profile , showR } = restaurantController
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 const restaurantAuth = require('../Middlewares/restaurantAuth')
+const {verify_token_next} = require(`../Middlewares/userAuth.js`)
 
 const router = express.Router()
 
@@ -24,6 +25,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+router.get('/allStores' , verify_token_next , showR );
 
 router.post('/signup' , restaurantAuth.verify_restaurant  ,signup);
 

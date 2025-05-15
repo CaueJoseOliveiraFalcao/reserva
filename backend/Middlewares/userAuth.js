@@ -39,6 +39,25 @@ const jwt = require("jsonwebtoken");
    console.log(error);
  }
 };
+const verify_token_next = async (req , res ,next) => {
+  try{
+    const UserToken = req.headers.authorization;
+
+    if (!UserToken){
+      return res.status(409).json({error : 'token nao fornecido' , UserToken})
+    }
+    const token = UserToken.split(" ")[1].replace(/"/g, ''); 
+    jwt.verify(token , process.env.SECRET_KEY , (err , decoded) => {
+      if (err) {
+        return res.status(409).json({error : 'token invalido'})
+      }
+      req.user = decoded; 
+      next();
+    })
+  }catch(error){
+    return res.status(409).json({message : error.message})
+  }
+}
 const verify_token = async (req , res) => {
   try{
     const UserToken = req.headers.authorization;
@@ -59,5 +78,6 @@ const verify_token = async (req , res) => {
 }
  module.exports = {
     verify_client,
-    verify_token
+    verify_token,
+    verify_token_next
 };

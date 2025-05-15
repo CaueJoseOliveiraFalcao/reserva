@@ -7,8 +7,26 @@ const { where, BOOLEAN } = require("sequelize");
 
 const upload = multer({dest : 'uploads/'});
 const Restaurant = db.Restaurant
+const User = db.Users;
 
+const showR = async (req , res) => {
+    const { userId } = req.query;
+    try {
+      const user = await User.findOne({
+        where : {id : userId}
+      })
 
+      if (user) {
+        const AllRestaurants = await Restaurant.findAll()
+        return res.status(200).send(AllRestaurants);
+      }else{
+        return res.status(404).send('Usuario nao encontrado');
+      }
+    } catch (error) {
+      return res.status(500).send('Server error');
+    }
+
+}
 const signup = async (req , res) => {
     try{
         const {name , email , cnpj ,address, password , phone , time , auto_close_time_permanence} = req.body
@@ -102,6 +120,7 @@ const login = async (req, res) => {
    };
    
    module.exports = {
+    showR,
     signup,
     login,
     change_profile,
