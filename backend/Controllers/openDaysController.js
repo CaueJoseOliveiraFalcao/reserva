@@ -10,6 +10,8 @@ const Restaurant = db.Restaurant;
 
 const showDays = async (req, res) => {
     const userId = req.query.userId;
+    console.log(req.query);
+    console.log(userId);
     try {
       const restaurant = await Restaurant.findOne({
         where: { id: userId },
