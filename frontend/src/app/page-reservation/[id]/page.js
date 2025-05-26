@@ -13,6 +13,7 @@ export default function Reservation({params}){
     const avaliableDays = {};
     const {id} = use(params);
     const restaurant_id = id;
+    let DbReservations = [];
     const [mTables,setTables] = useState([]);
     const [final_array , setFinal] = useState([]);
     const [serverSideDays , setServerDays] = useState([]);
@@ -33,7 +34,15 @@ export default function Reservation({params}){
         const mins = minutes % 60;
         return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
     }
-const sortValues = () => {
+    const getReservations = async () => {
+        try {
+            const response = await api.post("/reservations/show" , {restaurant_id : restaurant_id});
+           return response.data
+        }catch(err){
+            console.log(err);
+        }
+    }
+const sortValues = async  () => {
         for (let index = 1; index < 7; index++) {
         amanha.setDate(amanha.getDate() + 1)
         const day = amanha.getDate();
@@ -49,7 +58,6 @@ const sortValues = () => {
         avaliableDays[weekNormalized] = {day : day ,month:month , year : year};
     }
     const arrayu = {};
-
     serverSideDays.forEach(serverD => {
         Object.keys(avaliableDays).forEach(clientD => {
             if (serverD.day_of_week == clientD) {
@@ -59,6 +67,8 @@ const sortValues = () => {
                 let close_time = timeToMinutes(serverD.close_time);
 
                 while (open_time_init < close_time) {
+
+    
                     const time = minutesToTime(open_time_init);
                     Disponible_Hours.push(time);
                     open_time_init += 60;
@@ -117,7 +127,6 @@ const sortValues = () => {
         const jooj = `ola` 
         useEffect(() => {
             getDays(restaurant_id); // carrega os dias
-            
         }, []);
         useEffect(() => {
                 getTables(restaurant_id);
@@ -125,17 +134,23 @@ const sortValues = () => {
         }, []);
 
         useEffect(() => {
-            if (serverSideDays.length > 0) {
-                const sorted = sortValues();
-                    sorted.sort((a, b) => {
-                    const dateA = new Date(a.year, a.month, a.day); // month já é 0-indexado
-                    const dateB = new Date(b.year, b.month, b.day);
-                    return dateA - dateB;
-                });
-                setFinal(sorted);
-            }
+        if (serverSideDays.length > 0) {
+            const fetchAndSort = async () => {
+            const sorted = await sortValues();
+
+            // Caso sortValues não retorne o array, ajuste para retornar
+            sorted.sort((a, b) => {
+                const dateA = new Date(a.year, a.month, a.day);
+                const dateB = new Date(b.year, b.month, b.day);
+                return dateA - dateB;
+            });
+
+            setFinal(sorted);
+            };
+
+            fetchAndSort();
+        }
         }, [serverSideDays]);
-        
 
 
         const final_Sort = async (dia , hora) => {
@@ -145,7 +160,7 @@ const sortValues = () => {
             const userId = convveted.id;
             const restaurant_id = serverSideDays[0].restaurant_id;
             const [hours, minutes] = hora.split(':').map(Number);
-            const date_reservation = new Date(dia.year, dia.month, dia.day, hours, minutes);
+            const date_reservation = new Date(Date.UTC(dia.year, dia.month, dia.day, hours, minutes));
             const begin = hora;
             const status = "pendente"
             const endHour = String(hours + 1).padStart(2, '0');
@@ -158,8 +173,29 @@ const sortValues = () => {
                 status : status,
                 end : end,
             };
-
             const tables = await getTables(restaurant_id);
+            const dbReservations = await getReservations();
+            console.log(date_reservation);
+            dbReservations.forEach(element => {
+                const date = new Date(element.date);
+                const utcHour =date.getUTCHours();
+                const partes = hora.split(":");       // ["09", "00"]
+                const horaInteira = parseInt(partes[0]); // 9
+                const tableid = element.table;
+                console.log(element);
+                if (horaInteira == utcHour && dia.day == date.getUTCDate()){
+                    console.log(tables , parseInt(tableid));
+                    tables.forEach(element => {
+                        if (element.id == tableid){
+                            const index = tables.findIndex(element => element.id == tableid);
+                                if (index !== -1) {
+                                tables.splice(index, 1); 
+                            }
+                        }
+                    });
+                }
+            });
+
             setTables(tables);
             console.log(tables);
                 setSelectedReservation(SendArray);
@@ -193,8 +229,8 @@ const sortValues = () => {
                 alert("Erro ao fazer reserva.");
                 }
             } catch (error) {
-                console.error("Erro ao enviar reserva:", error);
-                alert("Erro ao enviar reserva.");
+                console.log(error.response.data.message);
+                alert(error.response.data.message);
             }
         };
 

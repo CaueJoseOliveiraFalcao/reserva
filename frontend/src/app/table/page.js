@@ -41,6 +41,7 @@ export default function Page (){
               Authorization: `Bearer ${token}`,
             },
           });
+          console.log(response)
           setTables(response.data);
           return response.data;
         } catch (error) {
@@ -52,7 +53,7 @@ export default function Page (){
       e.preventDefault();
       try {
         const response = await api.post('/tables/create-table', {
-          restaurant_id: 1,
+          restaurant_id: user.id,
           table_number: TableNumber,
           table_capacity: TableCapacity,
         },
