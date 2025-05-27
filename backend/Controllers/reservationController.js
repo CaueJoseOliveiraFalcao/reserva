@@ -3,7 +3,7 @@ const db = require('../Models');
 const Reservation = db.Reservation;
 const Client = db.Users;
 const Restaurant = db.Restaurant;
-
+const Table = db.Table
 
 exports.showReservations = async (req , res) => {
   const {restaurant_id} = req.body;
@@ -14,11 +14,31 @@ exports.showReservations = async (req , res) => {
       include : [Reservation]
     })
     
-    console.log(restaurant.reservations);
-    const Reserved_Dates = []
-    restaurant.reservations.forEach(element => {
-      Reserved_Dates.push({date : element.date_reservation , table : element.table_id});
-    });
+
+    const getInfoUser = async (client_id) => {
+      const client = await Client.findByPk(client_id);
+      return {name : client.name , email : client.email , phone : client.phone }; 
+    };
+    const getTableInfo = async (table_id) => {
+      const table = await Table.findByPk(table_id);
+      return {table_number : table.table_number , table_capacity : table.table_capacity , table_id : table.id};
+    };
+
+    const Reserved_Dates = await Promise.all(
+      restaurant.reservations.map(async (element) => {
+        const client = await getInfoUser(element.client_id);
+        const table = await getTableInfo(element.table_id);
+        console.log(table);
+        return {
+          date: element.date_reservation,
+          table: element.table_id,
+          status : element.status,
+          table_info : table,
+          client: client,
+        };
+      })
+    );
+
     return res.status(200).json(Reserved_Dates);
   }catch(err){
         res.status(500).json({ message: err });
@@ -35,7 +55,7 @@ exports.createReservation = async (req, res) => {
       end,
       status,
     } = req.body;
-    console.log(`dater` , date_reservation);
+    console.log(`dater` , date_reservation.getUTC);
     // Validações básicas
     if (!client_id || !restaurant_id || !table_id || !date_reservation || !begin || !end) {
       return res.status(400).json({ message: "Dados incompletos." });
