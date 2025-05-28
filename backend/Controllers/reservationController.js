@@ -4,7 +4,17 @@ const Reservation = db.Reservation;
 const Client = db.Users;
 const Restaurant = db.Restaurant;
 const Table = db.Table
-
+exports.deleteReservation = async (req , res) =>{
+  const {reservation_id} = req.body;
+  
+  try {
+    const reservation = await Reservation.findByPk(reservation_id);
+    await reservation.destroy();
+    return res.status(200).json({message : `reserva deletada`});
+  }catch(err){
+    res.status(500).json({ message: err });
+  }
+}
 exports.showReservations = async (req , res) => {
   const {restaurant_id} = req.body;
   try {
@@ -30,6 +40,7 @@ exports.showReservations = async (req , res) => {
         const table = await getTableInfo(element.table_id);
         console.log(table);
         return {
+          id : element.id,
           date: element.date_reservation,
           table: element.table_id,
           status : element.status,
