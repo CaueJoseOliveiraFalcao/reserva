@@ -16,6 +16,7 @@ export default function ClientHeader(){
             <div>
                 <a onClick={logout} className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md mr-3" style={{backgroundColor : "#E84A69" }}>Logout</a>
                 <a href="/profile/user" className="p-3 cursor-pointer text-xl hover:opacity-95 rounded-md"style={{backgroundColor : "white" , color : '#E84A69' }}>Perfil</a>
+                <a href="/user-reservations/" className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md mx-3" style={{backgroundColor : "#E84A69" }}>Reservas</a>
             </div>
         </header>
     )
