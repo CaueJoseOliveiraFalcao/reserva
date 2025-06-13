@@ -16,6 +16,18 @@ export default function Page() {
     const [clientPhone , setClientPhone] = useState();
     const [reservationId , setReservationId] = useState();
     const router = useRouter();
+      const [dados, setDados] = useState([
+    { id: 1, status: 'aberto' },
+    { id: 2, status: 'pendente' },
+    { id: 3, status: 'fechado' },
+  ]);
+    const handleStatusChange = (novoStatus, id) => {
+    setDados(prev =>
+      prev.map(res =>
+        res.id === id ? { ...res, status: novoStatus } : res
+      )
+    );
+  };
     const [reservations , setReservations] = useState();
     const deleteReservation = async (reservation_id) => {
         try {
@@ -51,7 +63,6 @@ export default function Page() {
 
     useEffect(() => {
         const localUser = localStorage.getItem('user')
-
         if (localUser) {
             const objUser = JSON.parse(localUser);
             setUser(objUser);
@@ -91,7 +102,17 @@ export default function Page() {
                                         minute: '2-digit',
                                         weekday : `long`,
                                     })}</td>
-                                    <td className="px-4 py-2 border">{res.status}</td>
+                                    <td className="px-4 py-2 border">
+                                        <select
+                                            className="border rounded px-2 py-1"
+                                            value={res.status}
+                                            onChange={(e) => handleStatusChange(e.target.value, res.id)}
+                                        >
+                                            <option value="aberto">Aberto</option>
+                                            <option value="pendente">Pendente</option>
+                                            <option value="fechado">Fechado</option>
+                                        </select>
+                                    </td>
                                     <td className="px-4 py-2 border">{res.table_info?.table_number}</td>
                                     <td className="px-4 py-2 border">{res.table_info?.table_capacity}</td>
                                     <td className="px-4 py-2 border">{res.client?.name}</td>

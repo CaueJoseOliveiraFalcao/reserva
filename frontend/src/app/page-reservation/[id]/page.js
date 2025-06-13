@@ -224,7 +224,7 @@ const sortValues = async  () => {
                 if (response.status === 201 || response.status === 200) {
                 alert("Reserva realizada com sucesso!");
                 setShowModal(false);
-                window.location.reload();
+                router.push('/reservation-pay');
                 } else {
                 alert("Erro ao fazer reserva.");
                 }

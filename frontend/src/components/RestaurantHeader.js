@@ -17,9 +17,8 @@ export default function RestaurantHeader(){
                 <a onClick={logout} className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md mr-3" style={{backgroundColor : "#E84A69" }}>Logout</a>
                 <a href="/profile/restaurant" className="p-3 cursor-pointer text-xl hover:opacity-95 rounded-md"style={{backgroundColor : "white" , color : '#E84A69' }}>Perfil</a>
                 <a href="/open-days/"  className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md ml-3" style={{backgroundColor : "#E84A69" }}>Dias Abertos</a>
-                <a href="/product/" className="p-3 cursor-pointer text-xl hover:opacity-95 ml-3 rounded-md"style={{backgroundColor : "white" , color : '#E84A69' }}>Produtos</a>
-                <a href="/table/"  className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md ml-3" style={{backgroundColor : "#E84A69" }}>Mesas</a>
-                <a href="/validate-reservation/" className="p-3 cursor-pointer text-xl hover:opacity-95 ml-3 rounded-md"style={{backgroundColor : "white" , color : '#E84A69' }}>Validar Entrada</a>
+                <a href="/table/"  className="p-3 cursor-pointer hover:opacity-95 text-xl rounded-md ml-3" style={{backgroundColor : "white" , color : '#E84A69' }}>Mesas</a>
+                <a href="/validate-reservation/" className="p-3 cursor-pointer text-xl hover:opacity-95 ml-3 rounded-md" style={{backgroundColor : "#E84A69" }}>Validar Entrada</a>
             </div>
         </header>
     )

@@ -29,6 +29,7 @@ export default function Page(){
         try {
             const response = await api.post("/reservations/show-user-reservations" , {userId : userId});
             setReservations(response.data);
+
         }catch(err){
             console.log(err);
         }
@@ -39,6 +40,7 @@ export default function Page(){
     const openModal = (qr) => {
         setOpen(true);
         setQr(qr);
+        alert(qr);
     }
     return(
         <div className="text-black ">
